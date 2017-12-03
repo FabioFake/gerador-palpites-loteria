@@ -4,6 +4,10 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
 import { AppComponent } from './app.component';
+import { LeitorResultadosService } from './gerador-resultado/leitor-resultados.service';
+import { MontadorResultadoMegasenaService } from './gerador-resultado/montador-resultado/montador-resultado-megasena.service';
+
+
 
 @NgModule({
   declarations: [
@@ -14,7 +18,10 @@ import { AppComponent } from './app.component';
     FormsModule,
     HttpModule
   ],
-  providers: [],
+  providers: [
+    LeitorResultadosService, 
+    MontadorResultadoMegasenaService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -1,3 +1,20 @@
-<h1>
-  {{title}}
-</h1>
+<ul>
+  <li>
+    <input type="radio" value=6 [(ngModel)]="tipoLoteria" />
+    <label>MegaSena </label>
+  </li>
+  <li>
+    <input type="radio" value=15 [(ngModel)]="tipoLoteria" />
+    <label>LotoFácil</label>
+  </li>
+</ul>
+
+<p>
+  <label>{{tipoLoteria}}</label>
+</p>
+<p>
+  <input type="file" (change)="onInputFileChange($event)">
+</p>
+<p>
+  <input type="button" (click)="gerarJogo($event)" value="Gerar Jogo">
+</p>
