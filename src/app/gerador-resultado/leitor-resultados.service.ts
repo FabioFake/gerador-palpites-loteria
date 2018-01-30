@@ -9,14 +9,45 @@ export class LeitorResultadosService {
 
     constructor() { }
 
-    public carregarResultados(arquivo: File, montadorResultado: MontadorResultadoInterface):void{
+    public carregarResultados(arquivo: File, montadorResultado: MontadorResultadoInterface):Promise<any>{
         this.montadorResultado = montadorResultado;
-        this.lerArquivo(arquivo);
+        return this.lerArquivo(arquivo);
     }
 
-    protected lerArquivo(arquivo: File){
-        console.log('LER AQUIVO = ', arquivo);
+    protected lerArquivo(arquivo: File): Promise<any>{
+        
+
+        let reader = new FileReader();
+
+        let promise = new Promise(
+            (resolve, reject ) =>{
+                reader.onload = (e: any) => {
+                    
+                    let content = e.target.result;
+                    
+                    this.extrairJogos(content);
+                    resolve(this.montadorResultado);
+                }
+            }
+        )
+        
+      
+        reader.readAsText(arquivo);
+
+        return promise;
+        
     }
+
+    private extrairJogos(conteudoArquivo: string) {
+        
+        let linhas = conteudoArquivo.split("\n");
+        linhas.map((linha) => {
+            this.montadorResultado.adicionarResultado(linha);
+        });
+
+        
+    }
+
 
 
 
