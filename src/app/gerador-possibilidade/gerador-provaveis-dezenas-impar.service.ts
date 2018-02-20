@@ -36,8 +36,10 @@ export class GeradorProvaveisDezenasImparService extends GeradorProvaveisDezenas
   }
 
   public reset (): void{
+    console.log(`RESET -> QUANTIDADE DE IMPARES ${this.quantidadeDeImpares}, QUANTIDADE DE PARES ${this.quantidadeDePares}`);
     this.quantidadeDeImpares = 0;
     this.quantidadeDePares = 0;
+    console.log(`DEPOIS DO RESET -> QUANTIDADE DE IMPARES ${this.quantidadeDeImpares}, QUANTIDADE DE PARES ${this.quantidadeDePares}`);
   }
 
 

@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { GeradorProvaveisDezenasImparService } from './gerador-provaveis-dezenas-impar.service';
 import { IneditoGeradorProvaveisDezenasService } from './inedito-gerador-provaveis-dezenas.service';
 import { RangeNumeracaoGeradorProvaveisDezenasService } from './range-numeracao-gerador-provaveis-dezenas.service';
+import { GeradorProvaveisDezenas } from 'app/gerador-possibilidade/gerador-provaveis-dezenas.service';
 
 @Injectable()
 export class TesteGeradorProbabilidadesService {
@@ -11,6 +12,7 @@ export class TesteGeradorProbabilidadesService {
   private acerto: number = 0;
   private erro: number = 0;
   private jogoProvavel: Array<any>;
+  private geradoresProbrabilidadeArray: Array<GeradorProvaveisDezenas>;
 
   constructor(
     private geradorProvaveisDezenasImparService: GeradorProvaveisDezenasImparService,
@@ -24,10 +26,8 @@ export class TesteGeradorProbabilidadesService {
       this.extrairApenasDezenas(resultadoJogos, i);
       console.log(`COLUNA ${i} => `, this.apenasPrimeirasDezenas);
       this.comecarSorteiosECarregamentoProbabilidades(0);
+      this.resetarGeradoresProbabilidade()
 
-      this.geradorProvaveisDezenasImparService.reset();
-      this.ineditoGeradorProvaveisDezenasService.reset();
-      this.rangeNumeracaoGeradorProvaveisDezenas.reset();
     }
     console.log('JOGO SORTEADO = ', this.jogoProvavel);
   }
@@ -37,8 +37,12 @@ export class TesteGeradorProbabilidadesService {
     resultadosJogos.forEach(resultadoJogo => {
       this.apenasPrimeirasDezenas.push(resultadoJogo.dezenas[indice])
     });
+  }
 
-
+  private resetarGeradoresProbabilidade(){
+    this.geradorProvaveisDezenasImparService.reset();
+    this.ineditoGeradorProvaveisDezenasService.reset();
+    this.rangeNumeracaoGeradorProvaveisDezenas.reset();
   }
 
   private comecarSorteiosECarregamentoProbabilidades(controleAntiOverFlow: number) {
