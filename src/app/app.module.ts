@@ -8,12 +8,10 @@ import { DecididorQualProbabilidadeService } from './gerador-possibilidade/decid
 import { GeradorProvaveisDezenasImparService } from './gerador-possibilidade/gerador-provaveis-dezenas-impar.service';
 import { IneditoGeradorProvaveisDezenasService } from './gerador-possibilidade/inedito-gerador-provaveis-dezenas.service';
 import { LeitorResultadosService } from './gerador-resultado/leitor-resultados.service';
+import { MaisSorteadosGeradorProvaveisDezenasService } from './gerador-possibilidade/mais-sorteados-gerador-provaveis-dezenas.service';
 import { MontadorResultadoMegasenaService } from './gerador-resultado/montador-resultado/montador-resultado-megasena.service';
 import { RangeNumeracaoGeradorProvaveisDezenasService } from './gerador-possibilidade/range-numeracao-gerador-provaveis-dezenas.service';
 import { TesteGeradorProbabilidadesService } from './gerador-possibilidade/teste-gerador-probabilidades.service';
-
-
-
 
 
 @NgModule({
@@ -30,6 +28,7 @@ import { TesteGeradorProbabilidadesService } from './gerador-possibilidade/teste
     IneditoGeradorProvaveisDezenasService,
     GeradorProvaveisDezenasImparService,
     LeitorResultadosService,
+    MaisSorteadosGeradorProvaveisDezenasService,
     MontadorResultadoMegasenaService,
     RangeNumeracaoGeradorProvaveisDezenasService,
     TesteGeradorProbabilidadesService

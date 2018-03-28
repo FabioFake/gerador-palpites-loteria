@@ -1,9 +1,11 @@
 import { Injectable } from '@angular/core';
 
+import { GeradorProvaveisDezenas } from 'app/gerador-possibilidade/gerador-provaveis-dezenas.service';
 import { GeradorProvaveisDezenasImparService } from './gerador-provaveis-dezenas-impar.service';
 import { IneditoGeradorProvaveisDezenasService } from './inedito-gerador-provaveis-dezenas.service';
+import { MaisSorteadosGeradorProvaveisDezenasService } from './mais-sorteados-gerador-provaveis-dezenas.service';
 import { RangeNumeracaoGeradorProvaveisDezenasService } from './range-numeracao-gerador-provaveis-dezenas.service';
-import { GeradorProvaveisDezenas } from 'app/gerador-possibilidade/gerador-provaveis-dezenas.service';
+
 
 @Injectable()
 export class TesteGeradorProbabilidadesService {
@@ -14,10 +16,13 @@ export class TesteGeradorProbabilidadesService {
   private jogoProvavel: Array<any>;
   private geradoresProbrabilidadeArray: Array<GeradorProvaveisDezenas>;
 
+  private PROBABILIDADE_MINIMA: number = 8;
+
   constructor(
     private geradorProvaveisDezenasImparService: GeradorProvaveisDezenasImparService,
     private ineditoGeradorProvaveisDezenasService: IneditoGeradorProvaveisDezenasService,
-    private rangeNumeracaoGeradorProvaveisDezenas: RangeNumeracaoGeradorProvaveisDezenasService) { }
+    private rangeNumeracaoGeradorProvaveisDezenas: RangeNumeracaoGeradorProvaveisDezenasService,
+    private maisSorteadosGeradorProvaveisDezenasService: MaisSorteadosGeradorProvaveisDezenasService) { }
 
   public testarGeracaoPorPossibilidades(resultadoJogos): void {
     this.jogoProvavel = [];
@@ -43,6 +48,7 @@ export class TesteGeradorProbabilidadesService {
     this.geradorProvaveisDezenasImparService.reset();
     this.ineditoGeradorProvaveisDezenasService.reset();
     this.rangeNumeracaoGeradorProvaveisDezenas.reset();
+    
   }
 
   private comecarSorteiosECarregamentoProbabilidades(controleAntiOverFlow: number) {
@@ -66,11 +72,10 @@ export class TesteGeradorProbabilidadesService {
       porcentagemErrosAcertos = this.calcularPorcentagemErrosAcertos(ct);
       log = log + `// PORCENTAGEM DE ACERTOS ${porcentagemErrosAcertos}`
 
-
       this.adicionarDezenaAsProbalidades(dezena);
     });
 
-    if (porcentagemErrosAcertos < 6 || controleAntiOverFlow < 10) {
+    if (porcentagemErrosAcertos < this.PROBABILIDADE_MINIMA || controleAntiOverFlow < 100) {
       controleAntiOverFlow++;
       this.comecarSorteiosECarregamentoProbabilidades(controleAntiOverFlow);
     } else {
@@ -101,6 +106,7 @@ export class TesteGeradorProbabilidadesService {
     this.geradorProvaveisDezenasImparService.adicionarAsProbabilidades(dezena);
     this.ineditoGeradorProvaveisDezenasService.adicionarAsProbabilidades(dezena);
     this.rangeNumeracaoGeradorProvaveisDezenas.adicionarAsProbabilidades(dezena);
+    // this.maisSorteadosGeradorProvaveisDezenasService.adicionarAsProbabilidades(dezena);
   }
 
   private calcularPorcentagemErrosAcertos(quantidade): number {
