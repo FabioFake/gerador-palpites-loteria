@@ -3,11 +3,15 @@ import { Injectable } from '@angular/core';
 import { GeradorProvaveisDezenas } from './gerador-provaveis-dezenas.service'
 import { MaisSorteadaModel } from './mais-sorteada.model';
 import { debug } from 'util';
+import { DecididorQualProbabilidadeService } from './decididor-qual-probabilidade.service';
 
 @Injectable()
 export class MaisSorteadosGeradorProvaveisDezenasService extends GeradorProvaveisDezenas {
 
+  //TODO Verificar a necessidade desse Array
   public dezenasMaisSorteadas: Array<number>;
+
+  public dezenasMaisSorteadasModelArray: Array<MaisSorteadaModel> = [];
   public dezenasSortedas: Array<MaisSorteadaModel> = [];
   public mediaDeSaidaDezenasMaisSorteadas: number;
   public haQuantosSorteiosNaosSaiUmaMaisSorteada: number = 0;
@@ -15,30 +19,68 @@ export class MaisSorteadosGeradorProvaveisDezenasService extends GeradorProvavei
 
   public static QUANTIDADE_DEZENAS_MAIS_SORTEADAS = 10;
 
-  constructor() {
+  constructor(private decididorQualProbabilidade: DecididorQualProbabilidadeService) {
     super();
     this.reset();
     this.intervalosEntreSorteioDeMaisSorteadas = [0];
   }
 
   public carregarProvaveisDezenas(provaveisDezenas: number[]): number[] {
-    let ultimoIndice = this.intervalosEntreSorteioDeMaisSorteadas.length - 1;
-    let intervaloAtual: number = this.intervalosEntreSorteioDeMaisSorteadas[ultimoIndice];
 
-    if (intervaloAtual >= this.mediaDeSaidaDezenasMaisSorteadas) {
-      const dezenasArray = this.separarApenasMaisSorteadas(provaveisDezenas);
-      return dezenasArray;
+    const quantidadeDeMaisSorteadas = this.calcularQuantidaDeMaisSorteadas();
+    const quantidadeDeMenosSorteadas = this.dezenasSortedas.length - quantidadeDeMaisSorteadas;
+
+    if (quantidadeDeMaisSorteadas > 0 && quantidadeDeMenosSorteadas > 0) {
+      const indicadosMaisOuMenosSorteadas =
+        this.decididorQualProbabilidade.decidirProbabilidadeProvavel([quantidadeDeMaisSorteadas, quantidadeDeMenosSorteadas]);
+
+      if (indicadosMaisOuMenosSorteadas == 0) {
+        provaveisDezenas = this.dezenasMaisSorteadas;
+      } else if( indicadosMaisOuMenosSorteadas == 1 ) {
+        provaveisDezenas = this.filtrarApenasMenosSorteadas(provaveisDezenas);
+      }
+
     }
+    // let ultimoIndice = this.intervalosEntreSorteioDeMaisSorteadas.length - 1;
+    // let intervaloAtual: number = this.intervalosEntreSorteioDeMaisSorteadas[ultimoIndice];
+
+    // if (intervaloAtual >= this.mediaDeSaidaDezenasMaisSorteadas) {
+    //   const dezenasArray = this.separarApenasMaisSorteadas(provaveisDezenas);
+    //   return dezenasArray;
+    // }
     return provaveisDezenas;
+  }
+
+  public filtrarApenasMenosSorteadas(provaveisDezenas: Array<number>): Array<number> {
+    const dezenasMenosSorteadas = this.provaveisDezenas.filter((dezena) => {
+      let possui = false;
+      for (let i = 0; i < this.dezenasMaisSorteadasModelArray.length; i++) {
+        possui = (dezena === this.dezenasMaisSorteadasModelArray[i].dezena);
+        if (possui) {
+          break
+        }
+      }
+      return !possui;
+    });
+    return dezenasMenosSorteadas;
+  }
+
+
+  private calcularQuantidaDeMaisSorteadas(): number {
+    let quantidadeDeMaisSorteadas = 0;
+    this.dezenasMaisSorteadasModelArray.forEach((dezena) => {
+      quantidadeDeMaisSorteadas += dezena.vezes;
+    });
+    return quantidadeDeMaisSorteadas;
   }
 
   protected separarApenasMaisSorteadas(provaveisDezenas: number[]) {
     const apenasMaisSorteadas = provaveisDezenas.filter((dezena) => {
-      const maisSorteadaEncontrada = this.dezenasMaisSorteadas.find( dezenaMaisSorteada => dezenaMaisSorteada === dezena); 
-      
+      const maisSorteadaEncontrada = this.dezenasMaisSorteadas.find(dezenaMaisSorteada => dezenaMaisSorteada === dezena);
+
       return dezena === maisSorteadaEncontrada;
     });
-    
+
     return apenasMaisSorteadas;
   }
 
@@ -66,7 +108,7 @@ export class MaisSorteadosGeradorProvaveisDezenasService extends GeradorProvavei
     }
 
     this.mediaDeSaidaDezenasMaisSorteadas = ultimoIndice > 0 ? totalIntervalos / ultimoIndice : 0;
-    
+
 
   }
 
@@ -80,7 +122,9 @@ export class MaisSorteadosGeradorProvaveisDezenasService extends GeradorProvavei
 
     this.dezenasMaisSorteadas = [];
     for (let i = 0; i < tamanhoColecao; i++) {
+      //TODO Verificar a necessidade de manter esse Array
       this.dezenasMaisSorteadas.push(dezenasOrdenadas[i].dezena);
+      this.dezenasMaisSorteadasModelArray.push(dezenasOrdenadas[i]);
     }
 
   }
@@ -115,6 +159,7 @@ export class MaisSorteadosGeradorProvaveisDezenasService extends GeradorProvavei
     this.dezenasMaisSorteadas = [];
     this.dezenasSortedas = [];
     this.intervalosEntreSorteioDeMaisSorteadas = [0];
+    this.dezenasMaisSorteadasModelArray = [];
   }
 
 

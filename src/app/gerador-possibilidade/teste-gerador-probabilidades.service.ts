@@ -16,7 +16,7 @@ export class TesteGeradorProbabilidadesService {
   private jogoProvavel: Array<any>;
   private geradoresProbrabilidadeArray: Array<GeradorProvaveisDezenas>;
 
-  private PROBABILIDADE_MINIMA: number = 8;
+  private PROBABILIDADE_MINIMA: number = 7;
 
   constructor(
     private geradorProvaveisDezenasImparService: GeradorProvaveisDezenasImparService,
