@@ -15,12 +15,16 @@ export class RangeNumeracaoGeradorProvaveisDezenasService extends GeradorProvave
 
   constructor(private decididorQualProbabilidade: DecididorQualProbabilidadeService) {
     super();
+    this.reset();
   }
 
   public reset(): void {
     this.quantidadeEntre0110 = 0;
     this.quantidadeEntre1020 = 0;
     this.quantidadeEntre2030 = 0;
+    this.quantidadeEntre3040 = 0;
+    this.quantidadeEntre4050 = 0;
+    this.quantidadeEntre5060 = 0;
   }
 
   public carregarProvaveisDezenas(provaveisDezenas: Array<number>): Array<number> {

@@ -1,4 +1,4 @@
-export class MaisSorteadaModel{
+export class DezenaComContadorModel{
 
     public dezena: number;
     public vezes: number;
