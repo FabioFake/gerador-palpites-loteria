@@ -16,22 +16,23 @@ export class GeradorDezenasMegaSenaService {
   private asSessentaDezenas: Array<number>;
   private geradorProvaveisDezenasArray: Array<GeradorProvaveisDezenas>;
   private palpite: Array<number> = [];
+  private porcentagemAcertosPosicaoDezena: Array<number> = [];
 
   constructor(private geradorProvaveisDezenasImparService: GeradorProvaveisDezenasImparService,
     private ineditoGeradorProvaveisDezenasService: IneditoGeradorProvaveisDezenasService,
-  private rangeNumeracaoGeradorProvaveisDezenas: RangeNumeracaoGeradorProvaveisDezenasService,
-  private maisSorteadosGeradorProvaveisDezenasService: MaisSorteadosGeradorProvaveisDezenasService
-) {
+    private rangeNumeracaoGeradorProvaveisDezenas: RangeNumeracaoGeradorProvaveisDezenasService,
+    private maisSorteadosGeradorProvaveisDezenasService: MaisSorteadosGeradorProvaveisDezenasService
+  ) {
     this.carregarAsSessentaDezenas();
     this.criarGeradorProbabilidadesArray();
   }
 
-  private criarGeradorProbabilidadesArray(){
+  private criarGeradorProbabilidadesArray() {
     this.geradorProvaveisDezenasArray = [];
     this.geradorProvaveisDezenasArray.push(this.geradorProvaveisDezenasImparService);
     this.geradorProvaveisDezenasArray.push(this.ineditoGeradorProvaveisDezenasService);
     this.geradorProvaveisDezenasArray.push(this.rangeNumeracaoGeradorProvaveisDezenas);
-    this.geradorProvaveisDezenasArray.push(this.maisSorteadosGeradorProvaveisDezenasService);
+    // this.geradorProvaveisDezenasArray.push(this.maisSorteadosGeradorProvaveisDezenasService);
   }
 
   private carregarAsSessentaDezenas(): void {
@@ -48,11 +49,10 @@ export class GeradorDezenasMegaSenaService {
   // }
 
   public gerarProbabilidades(resultadosMegaSena: Array<Array<number>>): void {
-
     this.gerarProbabilidadesPorPosicao(resultadosMegaSena, 0);
   }
 
-  public gerarProbabilidadesPorPosicao(resultadosMegaSena: Array<Array<number>>, indicePosicao: number): void{
+  public gerarProbabilidadesPorPosicao(resultadosMegaSena: Array<Array<number>>, indicePosicao: number): void {
 
     let proximoResultadoMegaSena = this.pegarProximoResultado(resultadosMegaSena);
 
@@ -62,9 +62,9 @@ export class GeradorDezenasMegaSenaService {
       Promise.all(this.criarProbabilidadesPromisesArray())
         .then((resultadosProvaveis) => {
 
-          console.log('********* RESULTADOS PROVAVEIS ', resultadosProvaveis);
+          // console.log('********* RESULTADOS PROVAVEIS ', resultadosProvaveis);
           let dezenasIntersecao: Array<number> = this.determinarIntersecao(resultadosProvaveis);
-          console.log('********* INTERSEÇÃO PARA SORTEIO ', dezenasIntersecao);
+          // console.log('********* INTERSEÇÃO PARA SORTEIO ', dezenasIntersecao);
 
           let dezenaSorteada = this.sortearDezena(dezenasIntersecao);
           this.contabilizarErrosAcertos(resultadoDezenaPosicao, dezenaSorteada);
@@ -72,89 +72,100 @@ export class GeradorDezenasMegaSenaService {
           this.gerarProbabilidadesPorPosicao(resultadosMegaSena, indicePosicao);
 
         })
-    }else {
-      console.log('############################################### IR PARA PRÓXIMA ###########################')
+    } else {
+      // console.log('############################################### IR PARA PRÓXIMA ###########################')
 
       /** Se não há proximo Resultado é hora de sortear o Palpite da vez */
       Promise.all(this.criarProbabilidadesPromisesArray())
-      .then((resultadosProvaveis) => {
-        let dezenasIntersecao: Array<number> = this.determinarIntersecao(resultadosProvaveis);
-        /** Retira da intersecao as dezenas ja sorteadas */
-        dezenasIntersecao = dezenasIntersecao.filter((dInter) => { 
-          return !this.palpite.find(p => p === dInter);
-        });
-        console.log('DEZENAS INTERSECAO DEPOIS DE RETIRAR AS PALPITADAS', dezenasIntersecao);
-
-        if(!dezenasIntersecao || dezenasIntersecao.length === 0){
-          resultadosProvaveis.pop();
-          dezenasIntersecao = this.determinarIntersecao(resultadosProvaveis);
-
-          dezenasIntersecao = dezenasIntersecao.filter((dInter) => { 
+        .then((resultadosProvaveis) => {
+          let dezenasIntersecao: Array<number> = this.determinarIntersecao(resultadosProvaveis);
+          /** Retira da intersecao as dezenas ja sorteadas */
+          dezenasIntersecao = dezenasIntersecao.filter((dInter) => {
             return !this.palpite.find(p => p === dInter);
           });
-          console.log('DEZENAS INTERSECAO DEPOIS DE RETIRAR AS PALPITADAS POP 01', dezenasIntersecao);
-        }
+          // console.log('DEZENAS INTERSECAO DEPOIS DE RETIRAR AS PALPITADAS', dezenasIntersecao);
+
+          if (!dezenasIntersecao || dezenasIntersecao.length === 0) {
+            resultadosProvaveis.pop();
+            dezenasIntersecao = this.determinarIntersecao(resultadosProvaveis);
+
+            dezenasIntersecao = dezenasIntersecao.filter((dInter) => {
+              return !this.palpite.find(p => p === dInter);
+            });
+            // console.log('DEZENAS INTERSECAO DEPOIS DE RETIRAR AS PALPITADAS POP 01', dezenasIntersecao);
+          }
 
 
-        if(!dezenasIntersecao || dezenasIntersecao.length === 0){
-          resultadosProvaveis.pop();
-          dezenasIntersecao = this.determinarIntersecao(resultadosProvaveis);
+          if (!dezenasIntersecao || dezenasIntersecao.length === 0) {
+            resultadosProvaveis.pop();
+            dezenasIntersecao = this.determinarIntersecao(resultadosProvaveis);
 
-          dezenasIntersecao = dezenasIntersecao.filter((dInter) => { 
-            return !this.palpite.find(p => p === dInter);
-          });
-          console.log('DEZENAS INTERSECAO DEPOIS DE RETIRAR AS PALPITADAS POP 02', dezenasIntersecao);
-        }
+            dezenasIntersecao = dezenasIntersecao.filter((dInter) => {
+              return !this.palpite.find(p => p === dInter);
+            });
+            // console.log('DEZENAS INTERSECAO DEPOIS DE RETIRAR AS PALPITADAS POP 02', dezenasIntersecao);
+          }
 
-        let dezenaPalpite = this.sortearDezena(dezenasIntersecao);
-        let isJaExisteNoPalpite = this.palpite.find(p => p === dezenaPalpite);
-        if(isJaExisteNoPalpite){
-          console.log('***********************************************************************')
-          console.log('***********************************************************************')
-          console.log('***********************************************************************')
-          console.log('***********************************************************************')
-          console.log('isJaExisteNoPalpite', isJaExisteNoPalpite, dezenaPalpite);
-          console.log('***********************************************************************')
-          console.log('***********************************************************************')
-        }
-        // while(this.palpite.find(p => p === dezenaPalpite)){
-        //   dezenaPalpite = this.sortearDezena(dezenasIntersecao);
-        // }
+          let dezenaPalpite = this.sortearDezena(dezenasIntersecao);
+          let isJaExisteNoPalpite = this.palpite.find(p => p === dezenaPalpite);
+          if (isJaExisteNoPalpite) {
+            console.log('***********************************************************************')
+            console.log('***********************************************************************')
+            console.log('***********************************************************************')
+            console.log('***********************************************************************')
+            console.log('isJaExisteNoPalpite', isJaExisteNoPalpite, dezenaPalpite);
+            console.log('***********************************************************************')
+            console.log('***********************************************************************')
+          }
+          // while(this.palpite.find(p => p === dezenaPalpite)){
+          //   dezenaPalpite = this.sortearDezena(dezenasIntersecao);
+          // }
+       
+          /** Cálculo de acertos para a dezena   */
+          const totalSorteiosPosicaoAteOMomento = this.indiceResultadosMegaSena - 1;
+          const quantidadeAcertos = totalSorteiosPosicaoAteOMomento - this.quantidadeErros;
+          this.porcentagemAcertosPosicaoDezena[indicePosicao] = (quantidadeAcertos * 100) / totalSorteiosPosicaoAteOMomento;
+
+      console.log('--------------- PALPITE ', this.palpite);
+      console.log('--------------- POCENTAGEM ACERTOS PARA A POSIÇÃO ', this.porcentagemAcertosPosicaoDezena);
+
+      if(this.porcentagemAcertosPosicaoDezena[indicePosicao] >2){
+        indicePosicao++;
         console.log('---------------- PALPITE PARA A POSIÇÃO. (POSICAO, PALPITE) ', indicePosicao, dezenaPalpite);
         this.palpite.push(dezenaPalpite);
-        console.log('--------------- PALPITE ', this.palpite);
-        indicePosicao++;
-        if(indicePosicao < 6){
-          this.indiceResultadosMegaSena = 0;
-          this.gerarProbabilidadesPorPosicao(resultadosMegaSena, indicePosicao );
-        }
-      });
-      
-    }
+      }
+      if (indicePosicao < 6) {
+        this.indiceResultadosMegaSena = 0;
+        this.quantidadeErros = 0;
+        this.gerarProbabilidadesPorPosicao(resultadosMegaSena, indicePosicao);
+      }
+    });
 
-    // return this.resutadoPromise;
   }
+
+  // return this.resutadoPromise;
+}
 
   private adicionarDezenaAosGeradoresParaEstatistica(dezenaResultadoMegaSena: number) {
-    this.geradorProvaveisDezenasArray.forEach((gerador) => {
-      gerador.adicionarAsProbabilidades(dezenaResultadoMegaSena);
-    });
+  this.geradorProvaveisDezenasArray.forEach((gerador) => {
+    gerador.adicionarAsProbabilidades(dezenaResultadoMegaSena);
+  });
+}
+
+  public criarProbabilidadesPromisesArray(): Array < Promise < any >> {
+  const promisesArray: Array<Promise< any >> =[];
+this.geradorProvaveisDezenasArray.forEach((gerador) => {
+  promisesArray.push(this.criarGeradorProvaveisDezenasPromise(gerador));
+});
+return promisesArray;
   }
 
-  public criarProbabilidadesPromisesArray(): Array<Promise<any>> {
-    const promisesArray: Array<Promise<any>> = [];
-    this.geradorProvaveisDezenasArray.forEach((gerador) => {
-      promisesArray.push(this.criarGeradorProvaveisDezenasPromise(gerador));
-    });
-    return promisesArray;
-  }
-
-  private criarGeradorProvaveisDezenasPromise(gerador: GeradorProvaveisDezenas): Promise<any> {
-    return new Promise((resolve, reject) => {
-      const provaveisDezenas = gerador.carregarProvaveisDezenas(this.asSessentaDezenas);
-      resolve(provaveisDezenas);
-    });
-  }
+  private criarGeradorProvaveisDezenasPromise(gerador: GeradorProvaveisDezenas): Promise < any > {
+  return new Promise((resolve, reject) => {
+    const provaveisDezenas = gerador.carregarProvaveisDezenas(this.asSessentaDezenas);
+    resolve(provaveisDezenas);
+  });
+}
 
   // private getGeradorProvaveisDezenasImparPromise(): Promise<Array<number>> {
   //   return new Promise((resolve, reject) => {
@@ -170,12 +181,12 @@ export class GeradorDezenasMegaSenaService {
   //   })
   // }
 
-  public pegarProximoResultado(resultadoMegaSena: Array<Array<number>>): Array<number> {
-    this.indiceResultadosMegaSena++;
-    return resultadoMegaSena[this.indiceResultadosMegaSena];
-  }
+  public pegarProximoResultado(resultadoMegaSena: Array<Array<number>>): Array < number > {
+  this.indiceResultadosMegaSena++;
+  return resultadoMegaSena[this.indiceResultadosMegaSena];
+}
 
-  public pegarProximaDezenaPosicao(resultadoMegaSena: Array<number>, indiceNumber): number {
+  public pegarProximaDezenaPosicao(resultadoMegaSena: Array < number >, indiceNumber): number {
     return resultadoMegaSena[indiceNumber];
   }
 
@@ -184,51 +195,51 @@ export class GeradorDezenasMegaSenaService {
 
   }
 
-  public determinarIntersecao(dezenasCandidatas: Array<Array<number>>): Array<number> {
-  
+  public determinarIntersecao(dezenasCandidatas: Array<Array<number>>): Array < number > {
+
     dezenasCandidatas = this.ordenarPorTamanhoDoArrayDecrescente(dezenasCandidatas);
-    const historicoIntersecoes: Array<Array<number>> = [];
+    const historicoIntersecoes: Array<Array< number >> =[];
 
-    let intersecao: Array<number> = dezenasCandidatas.reduce(( array_inicial, array_atual) => {
+let intersecao: Array<number> = dezenasCandidatas.reduce((array_inicial, array_atual) => {
 
-      let interseccaoTmp = [... array_inicial];
+  let interseccaoTmp = [...array_inicial];
 
-      const filtrado = array_inicial.filter((valor) => array_atual.includes(valor));
+  const filtrado = array_inicial.filter((valor) => array_atual.includes(valor));
 
-      /** Só atribui o array filtrado se tiver alguma coisa dentro */
-      if (filtrado.length > 0){
-        interseccaoTmp = filtrado;
-      }
-      /** Armazena um histórico das tentativas de interseção */
-      historicoIntersecoes.push (interseccaoTmp);
+  /** Só atribui o array filtrado se tiver alguma coisa dentro */
+  if (filtrado.length > 0) {
+    interseccaoTmp = filtrado;
+  }
+  /** Armazena um histórico das tentativas de interseção */
+  historicoIntersecoes.push(interseccaoTmp);
 
-      return interseccaoTmp;
-    });
+  return interseccaoTmp;
+});
 
-    /** 
-     * Se a interseção de todos os Arrays ficar vazia percorre de trás pra frente o 
-     * histórico de interseções até achar um array com alguma coisa dentro.
-     */
-    while((!intersecao || intersecao.length == 0) && historicoIntersecoes.length > 0){
-      intersecao = historicoIntersecoes.pop();      
+/** 
+ * Se a interseção de todos os Arrays ficar vazia percorre de trás pra frente o 
+ * histórico de interseções até achar um array com alguma coisa dentro.
+ */
+while ((!intersecao || intersecao.length == 0) && historicoIntersecoes.length > 0) {
+  intersecao = historicoIntersecoes.pop();
+}
+
+return intersecao;
+
+  }
+
+  public ordenarPorTamanhoDoArrayDecrescente(dezenasCandidatas: Array<Array<number>>): Array < Array < number >> {
+  return dezenasCandidatas.sort((array_01, array_02) => {
+    let diferenca = 0; // Mesmo Tamanho
+    if (array_02.length > array_01.length) {
+      diferenca = 1;
+    } else if (array_02.length < array_01.length) {
+      diferenca = -1;
     }
+    return diferenca;
+  });
 
-    return intersecao;
-
-  }
-
-  public ordenarPorTamanhoDoArrayDecrescente(dezenasCandidatas: Array<Array<number>>): Array<Array<number>>{
-    return dezenasCandidatas.sort((array_01, array_02 ) => {
-      let diferenca = 0; // Mesmo Tamanho
-      if(array_02.length > array_01.length){
-        diferenca = 1;
-      }else if(array_02.length < array_01.length){
-        diferenca = -1;
-      }
-      return diferenca;
-    });
-
-  }
+}
 
   private sortearDezena(provaveisDezenas: Array<number>): number {
 
@@ -240,13 +251,13 @@ export class GeradorDezenasMegaSenaService {
   }
 
   private contabilizarErrosAcertos(dezenaMegaSena: number, dezenaPalpite: number): void {
-    if (dezenaMegaSena !== dezenaPalpite) {
-      this.quantidadeErros++;
-    }
+      if(dezenaMegaSena !== dezenaPalpite) {
+    this.quantidadeErros++;
+  }
     console.log(dezenaMegaSena, dezenaPalpite, '*** ERROS ', this.quantidadeErros, ' INDICE JOGOS', this.indiceResultadosMegaSena);
   }
 
-  private armazenarDezenaSorteada(dezena: number): void { }
+  private armazenarDezenaSorteada(dezena: number): void {}
 
   private reset() { }
 }

@@ -6,6 +6,7 @@ import { HttpModule } from '@angular/http';
 import { AppComponent } from './app.component';
 import { DecididorQualProbabilidadeService } from './gerador-possibilidade/decididor-qual-probabilidade.service';
 import { GeradorProvaveisDezenasImparService } from './gerador-possibilidade/gerador-provaveis-dezenas-impar.service';
+import { GeradorDezenasMegaSenaService } from './mega-sena/gerador-dezenas-mega-sena.service';
 import { IneditoGeradorProvaveisDezenasService } from './gerador-possibilidade/inedito-gerador-provaveis-dezenas.service';
 import { LeitorResultadosService } from './gerador-resultado/leitor-resultados.service';
 import { MaisSorteadosGeradorProvaveisDezenasService } from './gerador-possibilidade/mais-sorteados-gerador-provaveis-dezenas.service';
@@ -27,6 +28,7 @@ import { TesteGeradorProbabilidadesService } from './gerador-possibilidade/teste
     DecididorQualProbabilidadeService,
     IneditoGeradorProvaveisDezenasService,
     GeradorProvaveisDezenasImparService,
+    GeradorDezenasMegaSenaService,
     LeitorResultadosService,
     MaisSorteadosGeradorProvaveisDezenasService,
     MontadorResultadoMegasenaService,
