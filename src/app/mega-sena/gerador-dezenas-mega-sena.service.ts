@@ -114,7 +114,7 @@ export class GeradorDezenasMegaSenaService {
 
           let dezenaPalpite = this.sortearDezena(dezenasIntersecao);
           let isJaExisteNoPalpite = this.palpite.find(p => p === dezenaPalpite);
-          if (isJaExisteNoPalpite) {
+          // if (isJaExisteNoPalpite) {
             // console.log('***********************************************************************')
             // console.log('***********************************************************************')
             // console.log('***********************************************************************')
@@ -122,7 +122,7 @@ export class GeradorDezenasMegaSenaService {
             // console.log('isJaExisteNoPalpite', isJaExisteNoPalpite, dezenaPalpite);
             // console.log('***********************************************************************')
             // console.log('***********************************************************************')
-          }
+          // }
           // while(this.palpite.find(p => p === dezenaPalpite)){
           //   dezenaPalpite = this.sortearDezena(dezenasIntersecao);
           // }
@@ -130,25 +130,38 @@ export class GeradorDezenasMegaSenaService {
           /** Cálculo de acertos para a dezena   */
           const totalSorteiosPosicaoAteOMomento = this.indiceResultadosMegaSena - 1;
           const quantidadeAcertos = totalSorteiosPosicaoAteOMomento - this.quantidadeErros;
-          this.porcentagemAcertosPosicaoDezena[indicePosicao] = (quantidadeAcertos * 100) / totalSorteiosPosicaoAteOMomento;
+          const porcentagemAtual = (quantidadeAcertos * 100) / totalSorteiosPosicaoAteOMomento;
+          // this.porcentagemAcertosPosicaoDezena[indicePosicao] = (quantidadeAcertos * 100) / totalSorteiosPosicaoAteOMomento;
+          if(this.controladorOverflow % 100 === 0){
+            console.log('--------------- PALPITE ', this.palpite);
+            console.log('--------------- POCENTAGEM ACERTOS PARA A POSIÇÃO ', this.porcentagemAcertosPosicaoDezena);
+            console.log('--------------- CONTROLADOR DE OVERFLOW', this.controladorOverflow);
+            console.log('--------------- MELHOR PORCENTAGEM', this.melhorPercentagem);
+            console.log('--------------- PALPITE COM MELHOR PORCENTAGEM', this.palpiteComMelhorPercentagem);
+          }
 
-          console.log('--------------- PALPITE ', this.palpite);
-          console.log('--------------- POCENTAGEM ACERTOS PARA A POSIÇÃO ', this.porcentagemAcertosPosicaoDezena);
-          console.log('--------------- CONTROLADOR DE OVERFLOW', this.controladorOverflow);
+          if(this.melhorPercentagem < porcentagemAtual){
+            this.melhorPercentagem = porcentagemAtual;
+            this.palpiteComMelhorPercentagem = dezenaPalpite;
+            this.porcentagemAcertosPosicaoDezena[indicePosicao] = this.melhorPercentagem;
+          }
 
-
-          if ((this.porcentagemAcertosPosicaoDezena[indicePosicao] > this.PORCENTAGEM_MINIMA_ACERTOS)
-            || this.controladorOverflow > 1000
+          if (
+            // (this.porcentagemAcertosPosicaoDezena[indicePosicao] > this.PORCENTAGEM_MINIMA_ACERTOS)
+            // ||
+            this.controladorOverflow > 10000
           ){
             this.resetarControladorOverflow();
             this.resetarGeradorProvaveisDezenasArray();
             indicePosicao++;
-            console.log('---------------- PALPITE PARA A POSIÇÃO. (POSICAO, PALPITE) ', indicePosicao, dezenaPalpite);
-            this.palpite.push(dezenaPalpite);
+            console.log('---------------- PALPITE PARA A POSIÇÃO. (POSICAO, PALPITE) ', indicePosicao, this.palpiteComMelhorPercentagem);
+            this.palpite.push(this.palpiteComMelhorPercentagem);
+            this.melhorPercentagem = -1;
+            this.palpiteComMelhorPercentagem = -1;
           }
 
           this.incrementarControladorOverflow();
-          console.log('--------------- CONTROLADOR DE OVERFLOW DEPOIS DO INCREMENTO', this.controladorOverflow);
+          // console.log('--------------- CONTROLADOR DE OVERFLOW DEPOIS DO INCREMENTO', this.controladorOverflow);
           if (indicePosicao < 6) {
             // this.resetarControladorOverflow();
             this.indiceResultadosMegaSena = 0;
@@ -236,8 +249,8 @@ export class GeradorDezenasMegaSenaService {
       return interseccaoTmp;
     });
 
-    /** 
-     * Se a interseção de todos os Arrays ficar vazia percorre de trás pra frente o 
+    /**
+     * Se a interseção de todos os Arrays ficar vazia percorre de trás pra frente o
      * histórico de interseções até achar um array com alguma coisa dentro.
      */
     while ((!intersecao || intersecao.length == 0) && historicoIntersecoes.length > 0) {
