@@ -19,7 +19,10 @@ export class GeradorDezenasMegaSenaService {
   private porcentagemAcertosPosicaoDezena: Array<number> = [];
   public controladorOverflow = 0;
 
-  private PORCENTAGEM_MINIMA_ACERTOS = 2;
+  private PORCENTAGEM_MINIMA_ACERTOS = 7;
+
+  private melhorPercentagem = -1;
+  private palpiteComMelhorPercentagem = -1;
 
   constructor(private geradorProvaveisDezenasImparService: GeradorProvaveisDezenasImparService,
     private ineditoGeradorProvaveisDezenasService: IneditoGeradorProvaveisDezenasService,
@@ -112,13 +115,13 @@ export class GeradorDezenasMegaSenaService {
           let dezenaPalpite = this.sortearDezena(dezenasIntersecao);
           let isJaExisteNoPalpite = this.palpite.find(p => p === dezenaPalpite);
           if (isJaExisteNoPalpite) {
-            console.log('***********************************************************************')
-            console.log('***********************************************************************')
-            console.log('***********************************************************************')
-            console.log('***********************************************************************')
-            console.log('isJaExisteNoPalpite', isJaExisteNoPalpite, dezenaPalpite);
-            console.log('***********************************************************************')
-            console.log('***********************************************************************')
+            // console.log('***********************************************************************')
+            // console.log('***********************************************************************')
+            // console.log('***********************************************************************')
+            // console.log('***********************************************************************')
+            // console.log('isJaExisteNoPalpite', isJaExisteNoPalpite, dezenaPalpite);
+            // console.log('***********************************************************************')
+            // console.log('***********************************************************************')
           }
           // while(this.palpite.find(p => p === dezenaPalpite)){
           //   dezenaPalpite = this.sortearDezena(dezenasIntersecao);
@@ -132,18 +135,22 @@ export class GeradorDezenasMegaSenaService {
           console.log('--------------- PALPITE ', this.palpite);
           console.log('--------------- POCENTAGEM ACERTOS PARA A POSIÇÃO ', this.porcentagemAcertosPosicaoDezena);
           console.log('--------------- CONTROLADOR DE OVERFLOW', this.controladorOverflow);
+
+
           if ((this.porcentagemAcertosPosicaoDezena[indicePosicao] > this.PORCENTAGEM_MINIMA_ACERTOS)
-            || this.controladorOverflow > 10
+            || this.controladorOverflow > 1000
           ){
             this.resetarControladorOverflow();
+            this.resetarGeradorProvaveisDezenasArray();
             indicePosicao++;
             console.log('---------------- PALPITE PARA A POSIÇÃO. (POSICAO, PALPITE) ', indicePosicao, dezenaPalpite);
             this.palpite.push(dezenaPalpite);
           }
 
           this.incrementarControladorOverflow();
+          console.log('--------------- CONTROLADOR DE OVERFLOW DEPOIS DO INCREMENTO', this.controladorOverflow);
           if (indicePosicao < 6) {
-            this.resetarControladorOverflow();
+            // this.resetarControladorOverflow();
             this.indiceResultadosMegaSena = 0;
             this.quantidadeErros = 0;
             this.gerarProbabilidadesPorPosicao(resultadosMegaSena, indicePosicao);
@@ -153,6 +160,10 @@ export class GeradorDezenasMegaSenaService {
     }
 
     // return this.resutadoPromise;
+  }
+
+  private resetarGeradorProvaveisDezenasArray(){
+    this.geradorProvaveisDezenasArray.forEach((gerador) => gerador.reset());
   }
 
   private adicionarDezenaAosGeradoresParaEstatistica(dezenaResultadoMegaSena: number) {
@@ -253,8 +264,8 @@ export class GeradorDezenasMegaSenaService {
   private sortearDezena(provaveisDezenas: Array<number>): number {
 
     const indice: number = Math.floor(Math.random() * provaveisDezenas.length);
-    console.log('SORTEAR - (INDICE, LENGTH, DEZENAS) ', indice, provaveisDezenas.length, provaveisDezenas);
-    console.log('SORTEAR - VALOR ', provaveisDezenas[indice]);
+    // console.log('SORTEAR - (INDICE, LENGTH, DEZENAS) ', indice, provaveisDezenas.length, provaveisDezenas);
+    // console.log('SORTEAR - VALOR ', provaveisDezenas[indice]);
     return provaveisDezenas[indice];
 
   }
@@ -263,7 +274,7 @@ export class GeradorDezenasMegaSenaService {
     if (dezenaMegaSena !== dezenaPalpite) {
       this.quantidadeErros++;
     }
-    console.log(dezenaMegaSena, dezenaPalpite, '*** ERROS ', this.quantidadeErros, ' INDICE JOGOS', this.indiceResultadosMegaSena);
+    // console.log(dezenaMegaSena, dezenaPalpite, '*** ERROS ', this.quantidadeErros, ' INDICE JOGOS', this.indiceResultadosMegaSena);
   }
 
   private armazenarDezenaSorteada(dezena: number): void { }
