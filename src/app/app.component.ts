@@ -6,6 +6,7 @@ import { TipoLoteriaEnum } from './utils/tipo-loteria.enum';
 import { MontadorResultadoMegasenaService } from './gerador-resultado/montador-resultado/montador-resultado-megasena.service';
 import { TesteGeradorProbabilidadesService } from './gerador-possibilidade/teste-gerador-probabilidades.service';
 import { ResultadoJogo } from './gerador-resultado/beans/resultado-jogo';
+import { Subscription } from 'rxjs/Subscription';
 
 
 
@@ -19,6 +20,9 @@ export class AppComponent {
   public tipoLoteria: number;
 
   private arquivoResultados: File;
+
+  public palpiteArray:Array<number> = [];
+  public porcentagemArray: Array<number> = [];
 
   public constructor(private leitorResultadosService: LeitorResultadosService,
     private montadorResultadoMegasenaService: MontadorResultadoMegasenaService,
@@ -48,7 +52,15 @@ export class AppComponent {
   private tratarResponse(resultadoJogos) {
     this.ordenarDezenas(resultadoJogos);
     const apenasDezenasNumericas = this.extrairApenasDezenas(resultadoJogos);
-    this.geradorDezenasMegaSenaService.gerarProbabilidades(apenasDezenasNumericas);
+    const geradorPalpitesSubscription: Subscription =
+      this.geradorDezenasMegaSenaService.gerarProbabilidades(apenasDezenasNumericas).subscribe((palpite) => {
+        console.log('*******************************************');
+        console.log('*******************************************');
+        console.log('*******************************************');
+        console.log(palpite);
+        this.palpiteArray.push(palpite.dezena);
+        this.porcentagemArray.push(palpite.porcentagem);
+      });
     // this.testeGeradorProbabilidadesService.testarGeracaoPorPossibilidades(resultadoJogos);
   }
 
@@ -63,9 +75,9 @@ export class AppComponent {
 
   private ordenarDezenas(resultadosJogos) {
     resultadosJogos.forEach(resultadoJogo => {
-      // 
+      //
       resultadoJogo.dezenas.sort(this.ordenarNumerico);
-      // 
+      //
     });
   }
 

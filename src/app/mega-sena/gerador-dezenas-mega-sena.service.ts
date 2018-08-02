@@ -5,6 +5,7 @@ import { IneditoGeradorProvaveisDezenasService } from '../gerador-possibilidade/
 import { GeradorProvaveisDezenas } from '../gerador-possibilidade/gerador-provaveis-dezenas.service';
 import { RangeNumeracaoGeradorProvaveisDezenasService } from '../gerador-possibilidade/range-numeracao-gerador-provaveis-dezenas.service';
 import { MaisSorteadosGeradorProvaveisDezenasService } from '../gerador-possibilidade/mais-sorteados-gerador-provaveis-dezenas.service';
+import { Subject } from 'rxjs/Subject';
 
 @Injectable()
 export class GeradorDezenasMegaSenaService {
@@ -23,6 +24,8 @@ export class GeradorDezenasMegaSenaService {
 
   private melhorPercentagem = -1;
   private palpiteComMelhorPercentagem = -1;
+
+  public $palpiteSubject: Subject<any> = new Subject<any>();
 
   constructor(private geradorProvaveisDezenasImparService: GeradorProvaveisDezenasImparService,
     private ineditoGeradorProvaveisDezenasService: IneditoGeradorProvaveisDezenasService,
@@ -54,8 +57,9 @@ export class GeradorDezenasMegaSenaService {
   //   });
   // }
 
-  public gerarProbabilidades(resultadosMegaSena: Array<Array<number>>): void {
+  public gerarProbabilidades(resultadosMegaSena: Array<Array<number>>): Subject<any>   {
     this.gerarProbabilidadesPorPosicao(resultadosMegaSena, 0);
+    return this.$palpiteSubject;
   }
 
   public gerarProbabilidadesPorPosicao(resultadosMegaSena: Array<Array<number>>, indicePosicao: number): void {
@@ -149,10 +153,11 @@ export class GeradorDezenasMegaSenaService {
           if (
             // (this.porcentagemAcertosPosicaoDezena[indicePosicao] > this.PORCENTAGEM_MINIMA_ACERTOS)
             // ||
-            this.controladorOverflow > 10000
+            this.controladorOverflow > 750
           ){
             this.resetarControladorOverflow();
             this.resetarGeradorProvaveisDezenasArray();
+            this.$palpiteSubject.next(JSON.parse('{ "dezena" : ' + this.palpiteComMelhorPercentagem + ' , "porcentagem" : ' + this.melhorPercentagem + ' } '));
             indicePosicao++;
             console.log('---------------- PALPITE PARA A POSIÇÃO. (POSICAO, PALPITE) ', indicePosicao, this.palpiteComMelhorPercentagem);
             this.palpite.push(this.palpiteComMelhorPercentagem);

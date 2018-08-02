@@ -18,3 +18,15 @@
 <p>
   <input type="button" (click)="gerarJogo($event)" value="Gerar Jogo">
 </p>
+<div>
+  <label>PALPITES</label>
+  <pre>
+    {{palpiteArray | json }}
+  </pre>
+</div>
+<div>
+  <label>PORCENTAGENS</label>
+  <pre>
+    {{ porcentagemArray | json }}
+  </pre>
+</div>
