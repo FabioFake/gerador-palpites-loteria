@@ -1,0 +1,257 @@
+body {
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  -webkit-touch-callout: none;
+  -webkit-text-size-adjust: none;
+  -webkit-user-select: none;
+  user-select: none;
+  font-size: 100%;
+  padding: 0;
+  margin: 0;
+  background-color: #fff;
+  font-family: Helvetica, Arial, Helvetica, sans-serif;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* APP */
+
+/* .app {
+  -webkit-transform: translate3d(0, 0, 0, 0);
+  transform: translate3d(0, 0, 0, 0);
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  overflow: hidden;
+} */
+
+.navbar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 44px;
+  color: #fbfbef;
+  background-color: #118db3;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
+  z-index: 1;
+}
+
+.navbar .title {
+  position: absolute;
+  left: 44px;
+  right: 44px;
+  text-align: center;
+  font-size: 150%;
+  margin: 8px;
+  font-weight: bold;
+}
+
+/* BUTTONS */
+.button-left {
+  left: 0;
+  border-right: 1px solid #cccccc;
+}
+
+.button-right {
+  right: 0px;
+  border-left: 1px solid #ccc;
+}
+
+.navbar .button {
+  width: 44px;
+  height: 44px;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+}
+
+.navbar .button a {
+  display: block;
+  text-align: center;
+  font-size: 150%;
+  font-weight: bolder;
+  height: 39px;
+  padding-top: 5px;
+}
+
+.navbar .button a:active {
+  background-color: rgb(11, 42, 182);
+  border-right: 2px solid rgb(63, 62, 62);
+  border-bottom-color: white;
+}
+
+/* VERDE #007e48
+    box-shadow: -6px 5px 7px -4px #3dc21b;
+    background-color: #44c767;
+    border-radius: 80px;
+    border: 1px solid #18ab29;
+    display: inline-block;
+    cursor: pointer;
+    color: #ffffff;
+    font-family: Arial;
+    font-size: 30px;
+    font-weight: bold;
+    padding: 45px 12px;
+    text-decoration: none;
+    text-shadow: 0px 1px 3px #2f6627
+*/
+/*
+box-shadow: -6px 5px 7px -1px #209869;
+    background-color: #44c767;
+    border-radius: 90px;
+    border: 1px solid #51ea2a;
+    display: inline-block;
+    cursor: pointer;
+    color: #ffffff;
+    font-family: Arial;
+    font-size: 45px;
+    font-weight: bold;
+    padding: 60px 12px;
+    text-decoration: none;
+    text-shadow: 0px 1px 3px #2f6627;
+*/
+.myButton {
+  -moz-box-shadow: -6px 5px 7px -1px #209869;
+  -webkit-box-shadow: -6px 5px 7px -1px #209869;
+  box-shadow: -6px 5px 7px -1px #209869;
+  background-color: #44c767;
+  -moz-border-radius: 90px;
+  -webkit-border-radius: 90px;
+  border-radius: 90px;
+  border: 1px solid #51ea2a;
+  display: inline-block;
+  cursor: pointer;
+  color: #ffffff;
+  font-family: Arial;
+  font-size: 45px;
+  font-weight: bold;
+  padding: 60px 12px;
+  text-decoration: none;
+  text-shadow: 0px 1px 3px #2f6627;
+}
+.myButton:hover {
+  background-color: #5cbf2a;
+}
+.myButton:active {
+  position: relative;
+  top: 1px;
+}
+
+/* DIV CORPO */
+.corpo {
+  margin-top: 44px;
+  padding-top: 50px;
+  text-align: center;
+}
+
+.div-com-botao {
+  display: flex;
+  justify-content: center;
+}
+
+.div-com-span {
+  margin-top: 0px;
+  display: flex;
+  justify-content: center;
+}
+
+span {
+  padding: 30px 30px 30px 30px;
+  background-color: #209869;
+  margin-top: 45px;
+  margin-left: 10px;
+  margin-right: 10px;
+  color: white;
+  font-weight: bolder;
+  font-size: x-large;
+  border-radius: 50%;
+}
+
+/* background-image:
+-webkit-linear-gradient(top,
+#f7f7f7,
+#e7e7e7);
+/*CHROME FIREFOX*/
+/*color:#a7a7a7; */
+
+.botao3D{
+  background-color: white;
+  background-image: -webkit-linear-gradient(top,  #80ff80, #009900 );
+  color: white;
+  height: 144px;
+  padding-top: 70px;
+  padding-bottom: 70px;
+  padding-left: 25px;
+  padding-right: 25px;
+  font-size: 2.5em;
+  font-weight: bolder;
+  border-radius: 50%;
+  /* box-shadow: 0px 3px 8px #aaa, inset 0px 2px 3px #fff; */
+  box-shadow: 0px 3px 8px #009999, inset 0px 2px 3px  #80ff80;
+  text-shadow: 2px 2px green, 3px 3px #aaa
+}
+
+
+
+
+@font-face {
+  font-family: "fontello";
+  src: url("./font/fontello.eot");
+  src: url("./font/fontello.eot?#iefix") format("embedded-opentype"),
+    url("./font/fontello.woff") format("woff"),
+    url("./font/fontello.ttf") format("truetype"),
+    url("./font/fontello.svg#fontello") format("svg");
+  font-weight: normal;
+  font-style: normal;
+}
+
+[class^="icon-"] {
+  font-family: "fontello";
+  font-style: normal;
+  font-size: 3em;
+  speak: none;
+}
+
+.icon-cw:after {
+  content: "\e800";
+}
+
+.botao-gerar{
+  display: block;
+  background-color: #f7f7f7;
+  background-image: -webkit-gradient(linear, left top, left bottom, from(#f7f7f7), to(green));
+  color: #f7f7f7;
+  margin: 0px auto;
+  width: 144px;
+  height: 144px;
+  position: relative;
+  text-align: center;
+  line-height: 144px;
+  border-radius: 50%;
+  box-shadow: 0px 3px 8px #aaa, inset 0px 2px 3px #fff;
+  text-shadow: 2px 2px green, 3px 3px #aaa
+}
+
+.botao-gerar:active{
+  display: block;
+  background-color: #f7f7f7;
+  background-image: -webkit-gradient(linear, left top, left bottom, from(#f7f7f7), to(#016501));
+  color: #f3f0f0;
+  margin: 0px auto;
+  width: 144px;
+  height: 140px;
+  position: relative;
+  text-align: center;
+  line-height: 136px;
+  border-radius: 50%;
+  -webkit-box-shadow: 0px 3px 8px #aaa, inset 0px 2px 3px #fff;
+  box-shadow: 0px -2px 0px #797878, inset 0px 2px 2px #0c0c0c;
+  text-shadow: 2px 2px green, 3px 3px #ababab;
+  padding-top: 5px;
+  margin-bottom: -1px
+}

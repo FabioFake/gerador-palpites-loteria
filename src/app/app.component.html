@@ -1,32 +1,48 @@
-<ul>
-  <li>
-    <input type="radio" value=6 [(ngModel)]="tipoLoteria" />
-    <label>MegaSena </label>
-  </li>
-  <li>
-    <input type="radio" value=15 [(ngModel)]="tipoLoteria" />
-    <label>LotoFácil</label>
-  </li>
-</ul>
+<!DOCTYPE html>
+<html>
 
-<p>
-  <label>{{tipoLoteria}}</label>
-</p>
-<p>
-  <input type="file" (change)="onInputFileChange($event)">
-</p>
-<p>
-  <input type="button" (click)="gerarJogo($event)" value="Gerar Jogo">
-</p>
-<div>
-  <label>PALPITES</label>
-  <pre>
-    {{palpiteArray | json }}
-  </pre>
-</div>
-<div>
-  <label>PORCENTAGENS</label>
-  <pre>
-    {{ porcentagemArray | json }}
-  </pre>
-</div>
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <!-- <title>Gerador de Mega Sena Layout</title> -->
+  <title>TESTES</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- <link rel="stylesheet" type="text/css" media="screen" href="main.css" /> -->
+  <!-- <script src="main.js"></script> -->
+</head>
+
+<body ontouchstart="">
+  <spinner></spinner>
+  <div id="app" class="app">
+
+    <div class="navbar">
+      <div class="button button-left menu">
+        <a>&#9776;</a>
+      </div>
+      <!-- <div class="title">Gerador de Palpites</div> -->
+      <div class="button button-right">
+        <a>&#8942;</a>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="corpo">
+    <!-- <a href="#" (click)="gerarPalpites()" class="myButton" style="cursor: pointer">GERAR</a>
+    <a href="#" (click)="gerarPalpites()" class="botao3D" style="cursor: pointer">GERAR</a> -->
+
+      <a class="icon-cw botao-gerar" (click)="gerarPalpites()"></a>
+    <div class="div-com-span">
+      <span *ngIf="palpiteArray[0]">{{ palpiteArray[0] }}</span>
+      <span *ngIf="palpiteArray[1]">{{ palpiteArray[1] }}</span>
+      <span *ngIf="palpiteArray[2]">{{ palpiteArray[2] }}</span>
+    </div>
+    <div class="div-com-span">
+      <span *ngIf="palpiteArray[3]">{{ palpiteArray[3] }}</span>
+      <span *ngIf="palpiteArray[4]">{{ palpiteArray[4] }}</span>
+      <span *ngIf="palpiteArray[5]">{{ palpiteArray[5] }}</span>
+    </div>
+  </div>
+</body>
+
+</html>

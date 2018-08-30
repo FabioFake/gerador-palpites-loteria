@@ -20,7 +20,7 @@ export class GeradorProvaveisDezenasImparService extends GeradorProvaveisDezenas
     /** 0 IMPAR E 1 PAR */
     const arrayQuantidades: Array<number> = [];
 
-    const indicadorImparPar = 
+    const indicadorImparPar =
       this.decididorQualProbabilidade.decidirProbabilidadeProvavel([this.quantidadeDeImpares, this.quantidadeDePares]);
 
 
@@ -49,7 +49,7 @@ export class GeradorProvaveisDezenasImparService extends GeradorProvaveisDezenas
   //   quantidadesImparesEPares.push(this.quantidadeDeImpares);
   //   quantidadesImparesEPares.push(this.quantidadeDePares);
 
- 
+
   //   /** O ÍNDICE 0 SERÃO AS IMPARES E O 1 PARES */
   //   const quantidadesImparesEPares: Array<number> = [];
   //   quantidadesImparesEPares.push(this.quantidadeDeImpares);
@@ -72,13 +72,13 @@ export class GeradorProvaveisDezenasImparService extends GeradorProvaveisDezenas
 
   private removerPares(provaveisDezenas: Array<number>){
     let soImpares = provaveisDezenas.filter (dezena => {return dezena % 2 > 0});
-    
+
     return soImpares;
   }
 
   private removerImpares(provaveisDezenas: Array<number> ){
     let soPares = provaveisDezenas.filter (dezena => {return dezena %2 ===0});
-    
+
     return soPares;
   }
 
@@ -88,7 +88,7 @@ export class GeradorProvaveisDezenasImparService extends GeradorProvaveisDezenas
     }else{
       this.quantidadeDeImpares ++;
     }
-    
+
   }
 
 

@@ -13,7 +13,7 @@ export class MontadorResultadoMegasenaService implements MontadorResultadoInterf
 
     /** TODO Trocar por pattern*/
     private dataInicial: string = '03/2017';
-    
+
 
     private indice:number = 0;
 
@@ -21,9 +21,9 @@ export class MontadorResultadoMegasenaService implements MontadorResultadoInterf
 
     private resultadoJogo: ResultadoJogo;
 
-    private resultadosJogos: Array<ResultadoJogo> = new Array();
+    public resultadosJogos: Array<ResultadoJogo> = new Array();
 
-    constructor() { 
+    constructor() {
         this.resultadoJogo = this.criarResultadoJogo();
     }
 
@@ -32,13 +32,13 @@ export class MontadorResultadoMegasenaService implements MontadorResultadoInterf
     }
 
     public adicionarResultado(linha: string): void {
-       
+
         if (!this.isNaTr) {
             this.isNaTr = this.verificarAberturaTr(linha);
         }else if(!this.isNoPeriodo){
             this.isNoPeriodo = this.verificarPeriodo(linha, this.dataInicial);
         }else{
-            
+
             let padraoRegex = /<td.*>(\d\d)<\/td>/;
             let match = padraoRegex.exec(linha);
             if(match){
@@ -48,10 +48,10 @@ export class MontadorResultadoMegasenaService implements MontadorResultadoInterf
                     this.resultadoJogo = this.criarResultadoJogo();
                     this.indice = 0;
                     this.isNaTr = false;
-                    // 
+                    //
                 }
             }
-        
+
 
         }
 
@@ -59,11 +59,11 @@ export class MontadorResultadoMegasenaService implements MontadorResultadoInterf
 
     public verificarAberturaTr(linha: string): boolean {
         let padrao = new RegExp("<tr.*>");
-        
+
         let achouTr: boolean =  padrao.test(linha);
 
         if(achouTr){
-            
+
         }
         return achouTr;
     }

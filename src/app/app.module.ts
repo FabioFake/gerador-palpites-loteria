@@ -12,6 +12,7 @@ import { LeitorResultadosService } from './gerador-resultado/leitor-resultados.s
 import { MaisSorteadosGeradorProvaveisDezenasService } from './gerador-possibilidade/mais-sorteados-gerador-provaveis-dezenas.service';
 import { MontadorResultadoMegasenaService } from './gerador-resultado/montador-resultado/montador-resultado-megasena.service';
 import { RangeNumeracaoGeradorProvaveisDezenasService } from './gerador-possibilidade/range-numeracao-gerador-provaveis-dezenas.service';
+import { SpinnerModule } from './componentes/spinner/spinner.module';
 import { TesteGeradorProbabilidadesService } from './gerador-possibilidade/teste-gerador-probabilidades.service';
 
 
@@ -22,7 +23,8 @@ import { TesteGeradorProbabilidadesService } from './gerador-possibilidade/teste
   imports: [
     BrowserModule,
     FormsModule,
-    HttpModule
+    HttpModule,
+    SpinnerModule
   ],
   providers: [
     DecididorQualProbabilidadeService,

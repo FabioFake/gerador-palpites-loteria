@@ -5,7 +5,7 @@ import { MontadorResultadoInterface } from './montador-resultado/montador-result
 @Injectable()
 export class LeitorResultadosService {
 
-    private montadorResultado: MontadorResultadoInterface;
+    public montadorResultado: MontadorResultadoInterface;
 
     constructor() { }
 
@@ -15,37 +15,38 @@ export class LeitorResultadosService {
     }
 
     protected lerArquivo(arquivo: File): Promise<any>{
-        
+
 
         let reader = new FileReader();
 
         let promise = new Promise(
             (resolve, reject ) =>{
                 reader.onload = (e: any) => {
-                    
+
                     let content = e.target.result;
-                    
+
                     this.extrairJogos(content);
                     resolve(this.montadorResultado);
                 }
             }
         )
-        
-      
+
+
         reader.readAsText(arquivo);
 
         return promise;
-        
+
     }
 
-    private extrairJogos(conteudoArquivo: string) {
-        
+    public extrairJogos(conteudoArquivo: string) {
+
         let linhas = conteudoArquivo.split("\n");
+        console.log("[ LeitorResultadosService ].extrairJogos -> Linhas", linhas);
         linhas.map((linha) => {
             this.montadorResultado.adicionarResultado(linha);
         });
 
-        
+
     }
 
 
