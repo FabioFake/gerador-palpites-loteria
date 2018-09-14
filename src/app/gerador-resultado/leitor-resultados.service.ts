@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { MontadorResultadoInterface } from './montador-resultado/montador-resultado.interface';
+// import { MontadorResultadoMegasenaService } from './montador-resultado/montador-resultado-megasena.service';
 
 @Injectable()
 export class LeitorResultadosService {
@@ -42,8 +43,10 @@ export class LeitorResultadosService {
 
         let linhas = conteudoArquivo.split("\n");
         console.log("[ LeitorResultadosService ].extrairJogos -> Linhas", linhas);
-        linhas.map((linha) => {
+        linhas.forEach((linha) => {
             this.montadorResultado.adicionarResultado(linha);
+            // console.log("[ LeitorResultadosService ].extrairJogos ->",
+            //   (<MontadorResultadoMegasenaService> this.montadorResultado).resultadosJogos.length);
         });
 
 

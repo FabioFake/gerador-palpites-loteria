@@ -21,7 +21,7 @@ export class GeradorDezenasMegaSenaService {
 
   private PORCENTAGEM_MINIMA_ACERTOS = 7;
 
-  private MAXIMO_SORTEIOS_PARA_PALPITE = 250;
+  private MAXIMO_SORTEIOS_PARA_PALPITE = 10;
 
   private melhorPercentagem = -1;
   private palpiteComMelhorPercentagem = -1;

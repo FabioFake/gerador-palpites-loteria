@@ -38,7 +38,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
   public constructor(
     private leitorResultadosService: LeitorResultadosService,
-    private montadorResultadoMegasenaService: MontadorResultadoMegasenaService,
+    public montadorResultadoMegasenaService: MontadorResultadoMegasenaService,
     private testeGeradorProbabilidadesService: TesteGeradorProbabilidadesService,
     private geradorDezenasMegaSenaService: GeradorDezenasMegaSenaService,
     public spinnerService: SpinnerService,
@@ -128,13 +128,19 @@ export class AppComponent implements OnInit, OnDestroy {
     //TODO LIGAR AMPULHETA
 
       try {
-        this.leitorResultadosService.montadorResultado = this.montadorResultadoMegasenaService;
-        this.leitorResultadosService.extrairJogos(
-          this.conteudoArquivoResultado
-        );
-        this.tratarResponse(
-          this.montadorResultadoMegasenaService.resultadosJogos
-        );
+        /** Limpa o Array de palpites */
+        this.palpiteArray = [];
+        /**
+         * Caso já esteja carregado o Array de resultados não carrega novamente
+         * @todo Descobrir porque na segunda chamada ele acumula 2000 e tal resultados
+        */
+        if (this.montadorResultadoMegasenaService.resultadosJogos && this.montadorResultadoMegasenaService.resultadosJogos.length < 1){
+          this.leitorResultadosService.montadorResultado = this.montadorResultadoMegasenaService;
+          this.leitorResultadosService.extrairJogos(
+            this.conteudoArquivoResultado
+          );
+        }
+        this.tratarResponse( this.montadorResultadoMegasenaService.resultadosJogos );
         // this.leitorResultadosService.carregarResultados(this.arquivoResultados,
         //   this.montadorResultadoMegasenaService)
         //   .then((response) => {
@@ -148,6 +154,7 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   private tratarResponse(resultadoJogos) {
+    // console.log("[AppComponent].tratarResponse() => LENGTH OF RESULTADOS", this.montadorResultadoMegasenaService.resultadosJogos.length);
     this.ordenarDezenas(resultadoJogos);
     const apenasDezenasNumericas = this.extrairApenasDezenas(resultadoJogos);
 
