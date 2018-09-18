@@ -179,9 +179,9 @@ span {
 /*CHROME FIREFOX*/
 /*color:#a7a7a7; */
 
-.botao3D{
+.botao3D {
   background-color: white;
-  background-image: -webkit-linear-gradient(top,  #80ff80, #009900 );
+  background-image: -webkit-linear-gradient(top, #80ff80, #009900);
   color: white;
   height: 144px;
   padding-top: 70px;
@@ -192,12 +192,9 @@ span {
   font-weight: bolder;
   border-radius: 50%;
   /* box-shadow: 0px 3px 8px #aaa, inset 0px 2px 3px #fff; */
-  box-shadow: 0px 3px 8px #009999, inset 0px 2px 3px  #80ff80;
-  text-shadow: 2px 2px green, 3px 3px #aaa
+  box-shadow: 0px 3px 8px #009999, inset 0px 2px 3px #80ff80;
+  text-shadow: 2px 2px green, 3px 3px #aaa;
 }
-
-
-
 
 @font-face {
   font-family: "fontello";
@@ -221,10 +218,16 @@ span {
   content: "\e800";
 }
 
-.botao-gerar{
+.botao-gerar {
   display: block;
   background-color: #f7f7f7;
-  background-image: -webkit-gradient(linear, left top, left bottom, from(#f7f7f7), to(green));
+  background-image: -webkit-gradient(
+    linear,
+    left top,
+    left bottom,
+    from(#f7f7f7),
+    to(green)
+  );
   color: #f7f7f7;
   margin: 0px auto;
   width: 144px;
@@ -234,13 +237,19 @@ span {
   line-height: 144px;
   border-radius: 50%;
   box-shadow: 0px 3px 8px #aaa, inset 0px 2px 3px #fff;
-  text-shadow: 2px 2px green, 3px 3px #aaa
+  text-shadow: 2px 2px green, 3px 3px #aaa;
 }
 
-.botao-gerar:active{
+.botao-gerar:active {
   display: block;
   background-color: #f7f7f7;
-  background-image: -webkit-gradient(linear, left top, left bottom, from(#f7f7f7), to(#016501));
+  background-image: -webkit-gradient(
+    linear,
+    left top,
+    left bottom,
+    from(#f7f7f7),
+    to(#016501)
+  );
   color: #f3f0f0;
   margin: 0px auto;
   width: 144px;
@@ -253,5 +262,14 @@ span {
   box-shadow: 0px -2px 0px #797878, inset 0px 2px 2px #0c0c0c;
   text-shadow: 2px 2px green, 3px 3px #ababab;
   padding-top: 5px;
-  margin-bottom: -1px
+  margin-bottom: -1px;
+}
+
+.versao {
+  background: -webkit-linear-gradient(#118db3, #087908);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-align: left ;
+  margin-top: -40px;
+  margin-bottom: 50px
 }
