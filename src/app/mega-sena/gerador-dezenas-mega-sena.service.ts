@@ -21,7 +21,7 @@ export class GeradorDezenasMegaSenaService {
 
   private PORCENTAGEM_MINIMA_ACERTOS = 7;
 
-  private MAXIMO_SORTEIOS_PARA_PALPITE = 300;
+  private MAXIMO_SORTEIOS_PARA_PALPITE = 187;
 
   private melhorPercentagem = -1;
   private palpiteComMelhorPercentagem = -1;
@@ -161,7 +161,8 @@ export class GeradorDezenasMegaSenaService {
           // this.porcentagemAcertosPosicaoDezena[indicePosicao] = (quantidadeAcertos * 100) / totalSorteiosPosicaoAteOMomento;
 
           /** TRACE */
-          if (this.controladorOverflow % 200 === 0) {
+          // if (this.controladorOverflow % 200 === 0) {
+          if (this.controladorOverflow > 185){
             console.log("--------------- PALPITE ", this.palpite);
             console.log(
               "--------------- POCENTAGEM ACERTOS PARA A POSIÇÃO ",
@@ -190,8 +191,8 @@ export class GeradorDezenasMegaSenaService {
           }
 
           if (
-            // (this.porcentagemAcertosPosicaoDezena[indicePosicao] > this.PORCENTAGEM_MINIMA_ACERTOS)
-            // ||
+             (this.porcentagemAcertosPosicaoDezena[indicePosicao] > this.PORCENTAGEM_MINIMA_ACERTOS)
+             ||
             this.controladorOverflow > this.MAXIMO_SORTEIOS_PARA_PALPITE
           ) {
             this.resetarControladorOverflow();
